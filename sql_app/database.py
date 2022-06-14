@@ -2,9 +2,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+# 本机
+local_str = "mysql://root:123456@localhost/fastapi_db?charset=utf-8mb4"
+# cs
+cs_str = "mysql://root:zaks123@localhost/miniapp?charset=utf-8mb4"
 # 数据库连接配置
 SQLALCHEMY_DATABASE_URI = (
-    "mysql://root:123456@localhost/fastapi_db?charset=utf-8mb4"
+    local_str,
 )
 # 创建数据库引擎 ，此时并没有真正连接到数据库
 """
@@ -14,6 +18,6 @@ pool_recycle: 设置时间以限制数据库多久没连接自动断开
 """
 engine = create_engine(url=SQLALCHEMY_DATABASE_URI, pool_size=5, echo=True, pool_recycle=60 * 30)
 # 创建数据库会话  所有对象的载入和保存都需要通过session对象 。
-sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # 声明基类
 Base = declarative_base()
