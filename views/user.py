@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Path, Query
 from models.user import User
 from sql_app.database import session
-from sqlalchemy.orm import Query
+from sqlalchemy import orm
+from typing import Optional
 
 user_router = APIRouter()
 
@@ -22,9 +23,9 @@ def user_get_all():
 
 
 @user_router.get("/one/{page}", description="分页查询用户")
-def user_get_one(page: int):
+def user_get_one(page: int = Path(..., title="页码"), pagesize: int = Query(default=1, title="每页的数量")):
     """每次返回一个用户"""
-    q: Query = session.query(User)
+    q: orm.Query = session.query(User)
     count = q.count()
     if page > count:
         return {
@@ -32,7 +33,7 @@ def user_get_one(page: int):
             "msg": "没有数据了"
         }
     else:
-        users = q.limit(1).offset(page).all()
+        users = q.limit(pagesize).offset(page).all()
 
         return {
             **response_base,
