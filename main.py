@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 import views
 import uvicorn
 
+
 # 主程序
 app = FastAPI()
 

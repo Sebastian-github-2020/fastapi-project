@@ -2,7 +2,7 @@ from fastapi import APIRouter, Path, Query
 from models.user import User
 from sql_app.database import session
 from sqlalchemy import orm
-from typing import Optional
+
 
 user_router = APIRouter()
 
