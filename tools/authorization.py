@@ -13,6 +13,10 @@ class JwtToken(object):
 
     @classmethod
     def generate_token(cls, payload: dict) -> str:
+        """
+        :param payload: 传递加密的数据 exp是过期时间 其他随意
+        :return:
+        """
         headers = dict(typ="jwt", alg="HS256")
         result = jwt.encode(payload=payload, key=cls._salt, algorithm="HS256", headers=headers)
         return result
