@@ -12,6 +12,7 @@ primary_key:主键
 
 class User(Base):
     """用户表"""
+
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
     name = Column(String(20), unique=True, index=True, nullable=False)
@@ -35,14 +36,15 @@ class User(Base):
 
 class Order(Base):
     """订单表"""
+
     __tablename__ = "order"
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(50), nullable=False)
     amount = Column(Float, default=0)
     # user是表名  上面的__tablename__
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     # 反查 通过user_id反查user  使用User表查询的时候 可调用order属性 查询对应订单
-    user = relationship('User', backref="orders")
+    user = relationship("User", backref="orders")
     detail = Column(String(20), nullable=False)
     type = Column(String(20), nullable=False)
 
@@ -52,6 +54,7 @@ class Order(Base):
 
 class Lottery(Base):
     """彩种表"""
+
     __tablename__ = "lottery"
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     name = Column(String(10), nullable=False, unique=True)
@@ -59,12 +62,13 @@ class Lottery(Base):
 
 class PlayRule(Base):
     """玩法表"""
+
     __tablename__ = "play_rule"
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     name = Column(String(10), nullable=False)
     # 关联外键  玩法id
-    lottery_id = Column(Integer, ForeignKey('lottery.id'), nullable=False)
-    lottery = relationship('Lottery', backref="play_rules")
+    lottery_id = Column(Integer, ForeignKey("lottery.id"), nullable=False)
+    lottery = relationship("Lottery", backref="play_rules")
 
 
 # 演示多对多 书籍和主角 多对多  一本书有多个主角 一个主角又会出现在多本书籍中
@@ -73,7 +77,7 @@ class Book(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(20), nullable=False)
     # 属性关联   secondary 是中间表
-    heros = relationship("Hero", secondary='book_hero', backref='books')
+    heros = relationship("Hero", secondary="book_hero", backref="books")
 
     def __repr__(self):
         return self.name
@@ -81,8 +85,8 @@ class Book(Base):
 
 class Book_Hero(Base):
     __tablename__ = "book_hero"
-    book_id = Column(Integer, ForeignKey('book.id'), primary_key=True)
-    hero_id = Column(Integer, ForeignKey('hero.id'), primary_key=True)
+    book_id = Column(Integer, ForeignKey("book.id"), primary_key=True)
+    hero_id = Column(Integer, ForeignKey("hero.id"), primary_key=True)
 
 
 class Hero(Base):
@@ -106,10 +110,12 @@ def add_many(objs: List):
     session.commit()
 
     # 创建表结构 不会修改表结构
-    # Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    # 创建表结构 不会修改表结构
+    Base.metadata.create_all(engine)
     # 查询数据 返回所有的结果，注意使用了filter_by 不用显示表明 查询的数据归属于哪个类
     # all()返回一个对象列表  first()返回单个对象
     # res = session.query(User).filter_by(name="zaks").all()
@@ -166,9 +172,9 @@ if __name__ == '__main__':
     # print("英雄:", res1)
     # print(res1.books)
     # 分页
-    res0 = session.query(User).limit(1).offset(0).first()
-    res1 = session.query(User).limit(1).offset(1).first()
-    res2 = session.query(User).limit(1).offset(2).first()
-    print(res0)
-    print(res1)
-    print(res2)
+    # res0 = session.query(User).limit(1).offset(0).first()
+    # res1 = session.query(User).limit(1).offset(1).first()
+    # res2 = session.query(User).limit(1).offset(2).first()
+    # print(res0)
+    # print(res1)
+    # print(res2)

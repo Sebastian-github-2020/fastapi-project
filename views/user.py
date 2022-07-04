@@ -3,7 +3,6 @@ from models.user import User
 from sql_app.database import session
 from sqlalchemy import orm
 
-
 user_router = APIRouter()
 
 response_base = {
@@ -13,8 +12,10 @@ response_base = {
 
 
 @user_router.get("/all")
-def user_get_all():
+def user_get_all(token1: str):
     """查询所有用户"""
+    print("请求的toekn", token1)
+
     users = session.query(User).all()
     return {
         **response_base,
