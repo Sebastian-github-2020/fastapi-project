@@ -30,4 +30,4 @@ def login(user: UserItem = Body(..., embed=False, example={
         return {"code": 200, "token": token}
     else:
         logging.debug(f"用户{user.username}登录失败")
-        return {"code": 400, "token": ""}
+        return {"code": 400, "token": "登录失败"}
