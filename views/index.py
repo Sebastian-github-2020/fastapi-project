@@ -5,6 +5,7 @@ index_router = APIRouter()
 
 @index_router.get("/")
 def index():
+
     return {
         "msg": "index"
     }

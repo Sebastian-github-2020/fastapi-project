@@ -7,7 +7,7 @@ _local_str = "mysql+pymysql://root:123456@localhost/fastapi_db"
 # cs
 _cs_str = "mysql+pymysql://root:zaks123@localhost/miniapp"
 # 数据库连接配置
-SQLALCHEMY_DATABASE_URI = _local_str
+SQLALCHEMY_DATABASE_URI = _cs_str
 # 创建数据库引擎 ，此时并没有真正连接到数据库
 """
 echo: 当设置为True时会将orm语句转化为sql语句打印，一般debug的时候可用

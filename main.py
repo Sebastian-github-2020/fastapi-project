@@ -4,20 +4,28 @@ from fastapi import FastAPI, Depends
 from fastapi.staticfiles import StaticFiles
 import views
 import uvicorn
-from tools import logs
+from tools import logs  # 初始化log
 from tools.authorization import JwtToken
+from fastapi.middleware.cors import CORSMiddleware  # 跨域中间件
 
 logging.debug("初始化log配置")
+
 # 主程序
 app = FastAPI()
-
+# 添加中间件
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # 配置路由表
-app.include_router(views.index_router, tags=["首页"], prefix="/home")
+app.include_router(views.index_router, tags=["首页"], prefix="/home", dependencies=[Depends(JwtToken.parse_token)], )
 app.include_router(
     views.user_router,
     tags=["用户"],
-    prefix="/user",
-    dependencies=[Depends(JwtToken.parse_token)],
+    prefix="/user"
 )
 app.include_router(views.news_router, tags=["新闻"], prefix="/news")
 app.include_router(views.upload_router, tags=["上传"], prefix="/upload")
