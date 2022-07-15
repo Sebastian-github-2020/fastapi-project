@@ -3,8 +3,8 @@ from fastapi import APIRouter, File, UploadFile
 upload_router = APIRouter()
 
 
-@upload_router.post("/")
-async def upload_file(file: UploadFile = File(..., media_type="*")):
+@upload_router.post("")
+async def upload_file(file: UploadFile = File(..., media_type="*")) :
     res = await file.read()
     with open("upload/" + file.filename, 'wb+') as f:
         f.write(res)
